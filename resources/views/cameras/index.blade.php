@@ -12,20 +12,7 @@
 	
     <p>Cameras </p>
       
-  @foreach($cameras['data'] as $cameras)
-      <tr>
-            <th class="text-center">
-                <i class="icon-people"></i>
-            </th>
-                <th>{{ $cameras['camera_type']}}</th>
-                <th>{{ $cameras['serial_number']}}</th>
-                <th>{{ $cameras['created']}}</th>
-                <th>{{ $cameras['updated']}}</th>
-                <th>{{$cameras['status']}}</th>
-            <th><a class="btn btn-primary" href="">Details</a></th>
-        </tr>
-    
-@endforeach
+
   <div class="container">
     <div class="card">
     <div class="card-body">
@@ -45,16 +32,48 @@
             </th>
             <th data-field="camera_type">
               <span class="text-success">
-                camera_types 
+                Camera_types 
               </span>
             </th>
             <th data-field="serial_number">
               <span class="text-success">
-                serial_number  
+                Serial_number  
+              </span>
+            </th>
+            <th data-field="created">
+              <span class="text-success">
+                Created  
+              </span>
+            </th>
+            <th data-field="updated">
+              <span class="text-success">
+                Updated  
+              </span>
+            </th>
+            <th data-field="status">
+              <span class="text-success">
+                Status  
+              </span>
+            </th>
+            <th data-field="details">
+              <span class="text-success">
+                Details  
               </span>
             </th>
           </tr>
         </thead>
+      @foreach($cameras['data'] as $cameras)
+      <tr>
+                <th>{{ $cameras['id']}}</th>
+                <th>{{ $cameras['camera_type']}}</th>
+                <th>{{ $cameras['serial_number']}}</th>
+                <th>{{ $cameras['created']}}</th>
+                <th>{{ $cameras['updated']}}</th>
+                <th>{{$cameras['status']}}</th>
+                <th><a class="btn btn-primary" href="">Details</a></th>
+        </tr>
+    
+@endforeach
       </table>
         </div>
       </div>
