@@ -14,7 +14,7 @@ class CamerasController extends Controller
      */
     public function index()
     {
-       /// echo $this->jsonToObject();
+       ///echo $this->jsonToObject();
         $cameras = $this->jsonToObject();
         return view('cameras.index')->with('cameras',json_decode($cameras, true) );
     }
