@@ -14,16 +14,11 @@ class CamerasController extends Controller
      */
     public function index()
     {
-        //echo $this->jsonToObject();
-        $test = $this->jsonToObject();
-
-        $json_decoded = json_decode($test, true);
-         print_r($json_decoded);
-        foreach($json_decoded as $result){
-         //print_r($result);
-        }
-        return view('cameras.index');
+       /// echo $this->jsonToObject();
+        $cameras = $this->jsonToObject();
+        return view('cameras.index')->with('cameras',json_decode($cameras, true) );
     }
+
 
     /**
      * Show the form for creating a new resource.

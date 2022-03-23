@@ -29,5 +29,5 @@ Route::get('/schedule', ['\App\Http\Controllers\ScheduleController', 'index'])->
 
 Route::get('/cameras', ['\App\Http\Controllers\CamerasController', 'index'])->name('cameras');
 Route::get('/servers', ['\App\Http\Controllers\ServersController', 'index'])->name('servers');
-
+//Route::post('/cameras', '\App\Http\Controllers\CamerasController@jsonToObject');
 //Route::resource('schedule', ScheduleController::class);

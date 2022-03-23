@@ -10,9 +10,22 @@
 
 @section('body')
 	
-    <p>teststeen</p>
-
-
+    <p>Cameras </p>
+      
+  @foreach($cameras['data'] as $cameras)
+      <tr>
+            <th class="text-center">
+                <i class="icon-people"></i>
+            </th>
+                <th>{{ $cameras['camera_type']}}</th>
+                <th>{{ $cameras['serial_number']}}</th>
+                <th>{{ $cameras['created']}}</th>
+                <th>{{ $cameras['updated']}}</th>
+                <th>{{$cameras['status']}}</th>
+            <th><a class="btn btn-primary" href="">Details</a></th>
+        </tr>
+    
+@endforeach
   <div class="container">
     <div class="card">
     <div class="card-body">
@@ -71,9 +84,18 @@
         data: mydata
       });
     });
-    console.log(mydata);
+    //console.log(mydata);
     // Specify the JSON data to be displayed
-    var mydata = "";
+    //var mydata = "";
+
+    $.ajax({
+    type: "POST",
+    url: '/cameras', // This is what I have updated
+    data: { id: 7 }
+}).done(function( msg ) {
+    alert( msg );
+});
+
   </script>
 
 @endsection
