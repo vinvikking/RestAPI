@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Schedule;
 use Illuminate\Http\Request;
+use App\Models\Curl;
 
 class ScheduleController extends Controller
 {
@@ -17,10 +18,11 @@ class ScheduleController extends Controller
     {
        $schedule = $this->listRecordings();
        $customers = $this->listCustomers();
+      
 
        return view('schedule.index')
-        ->with('schedule', json_decode($schedule, true))
-        ->with('customers', json_decode($customers, true));
+        ->with('schedule', $schedule)
+        ->with('customers', $customers);
     }
 
     /**
@@ -30,7 +32,8 @@ class ScheduleController extends Controller
      */
     public function create()
     {
-        return view('schedule.create');
+        $servers = $this->listServers();
+        return view('schedule.create')->with('servers', $servers);
     }
 
     /**
@@ -41,15 +44,68 @@ class ScheduleController extends Controller
      */
     public function store(Request $request)
     {
-        $response = $client->request('POST', '/api/user', [
-        'headers' => [
-        'Accept' => 'application/json',
-                ],
-        'form_params' => [
-        'api_token' => $token,
-             ],
-        ]);
+ 
+        $push = [
+            "server_id" => $request->server_id,
+            "status" => "pending",
+            "title" => $request->title,
+            "schedule" => [
+                "start_time" => $request->start . ":00",
+                "end_time" => $request->end . ":00",
+            ],
+            "type_settings" => [
+                "sport" => $request->sport,
+                "views" => [[
+                    "camera_id" => $request->camera,
+                    "camera_name" => "main",
+                    "enable_audio" => true,
+                    "enable_ocr" => true,
+                    "mode" => "broadcast",
+                    "quality" => "high",
+                    "url" => $request->url
+                ]],
+            ],
+        ];
+
+        echo json_encode($push) . "\n\n";
+
+        Curl::post('https://api.sports.studioautomated.com/api/v3/scheduler/recordings', $push);
+
+        //echo json_encode($result);
+
+
+
+      //return json_encode($request->getContent());
     }
+
+
+
+    // {
+    //     "parent_id": "432b9f88-2685-47b2-ba14-71c68a2c26ad",
+    //     "schedule": {
+    //       "end": 42,
+    //       "end_time": "2021-11-12T10:15:34",
+    //       "start": 42,
+    //       "start_time": "2021-11-12T10:15:34"
+    //     },
+    //     "server_id": "432b9f88-2685-47b2-ba14-71c68a2c26ad",
+    //     "status": "pending",
+    //     "title": "abc",
+    //     "type_settings": {
+    //       "sport": "icehockey",
+    //       "views": [
+    //         {
+    //           "camera_id": "432b9f88-2685-47b2-ba14-71c68a2c26ad",
+    //           "camera_name": "abc",
+    //           "enable_audio": true,
+    //           "enable_ocr": true,
+    //           "mode": "static",
+    //           "quality": "high",
+    //           "url": "rtmp://url.to.stream"
+    //         }
+    //       ]
+    //     }
+    //   }
 
     /**
      * Display the specified resource.
@@ -104,25 +160,30 @@ class ScheduleController extends Controller
      */
     public function listRecordings()
     {
-        $curl = curl_init();
+        $recordings = Curl::get('https://api.sports.studioautomated.com/api/v3/scheduler/recordings');
+        return $recordings;
+    }
+      /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Cameras  $cameras
+     * @return \Illuminate\Http\Response
+     */
+    public function listServers()
+    {
+        $test = Curl::get('https://api.sports.studioautomated.com/api/v3/core/servers'); 
+        return $test;
+    }
 
-          curl_setopt_array($curl, array(
-          CURLOPT_URL => 'https://api.sports.studioautomated.com/api/v3/scheduler/recordings',
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_ENCODING => '',
-          CURLOPT_MAXREDIRS => 10,
-          CURLOPT_TIMEOUT => 0,
-          CURLOPT_FOLLOWLOCATION => true,
-          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-          CURLOPT_CUSTOMREQUEST => 'GET',
-          CURLOPT_HTTPHEADER => array(
-            'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMWQxZWQ2ZjE2NGFmODM0NjY5YWZmMSIsImVtYWlsQWRkcmVzcyI6ImdvcmRvbi5nb3Nld2lzY2hAc3BvcnRjbHVic3VwcG9ydC5jb20iLCJjdXN0b21lcl9pZCI6IioiLCJwYXJ0bmVyX2lkIjoiZjQzMjVmZDQtNjkxNi00NzhmLTlkYmEtOTZkMDQ1MjlhODYxIiwicm9sZSI6InBhcnRuZXJfYWRtaW4iLCJpYXQiOjE2NDc5ODAyMDcsImV4cCI6MTY0ODU4NTAwN30.ixDMXdVWcFw7NuP4BhzYxnbo5U9tEiB24EyCixIVaxKPBScQ6gnNrR04USkpWghKix2EEPzKXhFiix3HX3a5VOllBJ5jx4WvWWfHZvNw2Of32gFAMWIMk24D0KpRN7ngFbqxdFqv2V0mMRw2OjIKmky3e9i5ZHECxd4fdgVkQZOiUAr2pSky6JFly2RsjW9AfEZOMMaMLJheGPKwtvfor01zfn7PyuYuq5EzaxQ4cz55jFJSCG9nUQ9G1X3UPRzdagK7VlPZAEJt1jk0RH0EpEWT_DhdAlxdZnqI1ovEUfXJb562l_oaWKKW9-oti_r1mLiPBi319CU_o4dKVkS7gg'
-          ),
-        ));
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-        return $response;
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Cameras  $cameras
+     * @return \Illuminate\Http\Response
+     */
+    public function listCustomers()
+    {
+        $recordings = Curl::get('https://api.sports.studioautomated.com/api/v3/core/customers');
+        return $recordings;
     }
 }

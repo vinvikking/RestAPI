@@ -17,6 +17,8 @@
 <a> <i class="fas fa-plus mr-2" ></i>Nieuwe Recording</a>
 </button>
 
+
+
     <table id="myTable">
       <thead>
         <tr>
@@ -63,16 +65,17 @@
         <form>
   <div class="form-group">
     <label for="exampleFormControlSelect1">Customer</label>
-    <select class="form-control" id="exampleFormControlSelect1">
-      <option>1</option>
-      <option>2</option>
+    <select class="form-control" id="selectCustomerInput">
+      @foreach($customers['data'] as $customer)
+      <option value="{{$customer['id']}}">{{$customer['name']}}</option>
+      @endforeach
     </select>
   </div>
 </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button id="selectCustomerButton" type="button" class="btn btn-primary" href="#">Save changes</button>
       </div>
     </div>
   </div>
@@ -82,6 +85,10 @@
 $('#myModal').on('shown.bs.modal', function () {
   $('#myInput').trigger('focus')
 })
+
+$(document).on('click', "#selectCustomerButton", function() {
+  window.location.href = '/schedule/create/' + $("#selectCustomerInput").val();
+});
 </script>
 
 <script type="text/javascript">

@@ -7,6 +7,7 @@
     </ol>
 @endsection
 
+
 @section('body')
    <div class="container mt-4">
   @if(session('status'))
@@ -19,45 +20,71 @@
      Formulier Schedule inplannen
     </div>
     <div class="card-body">
-      <form name="add-blog-post-form" id="add-blog-post-form" method="post" action="{{url('store-form')}}">
+      <form name="add-blog-post-form" id="add-blog-post-form" method="post"  action="/schedule/store">
        @csrf
         <div class="form-group">
           <label for="exampleInputEmail1">Title</label>
           <input type="text" id="title" name="title" class="form-control" required="">
         </div>
-        <div class="form-group">
-          <label for="exampleInputEmail1">Description</label>
-          <textarea name="description" class="form-control" required=""></textarea>
+      <div class="form-group">
+        <label for="exampleFormControlSelect1">Server</label>
+        <select name="server_id" class="form-control" id="serverInput">
+         @foreach($servers['data'] as $server)
+         <option value="{{ $server['id']}}">{{ $server['host_name']}}</option>
+         @endforeach
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlSelect1">Sport</label>
+        <select name="sport" class="form-control" id="selectCustomerInput">
+          <option value="football">football</option>
+          <option value="basket">basket</option>
+          <option value="tennis">tennis</option>
+          </select>
+      </div>
+      <div class="form-group">
+          <label for="exampleInputEmail1">Camera</label>
+          <select name="camera" id="cameraSelect" class="form-control">
+            @foreach($servers['data'] as $server)
+            @foreach($server['cameras'] as $camera_name => $camera_data)
+            <option data-server="{{ $server['id'] }}" value="{{ $camera_data['camera_id'] }}">{{ $camera_name }}</option>
+            @endforeach
+            @endforeach
+          </select>
+      </div>
+      <div class="form-group">
+          <label for="exampleInputEmail1">Streaming url</label>
+          <input type="text" id="title" name="url" class="form-control" required="">
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+      <div class="form-group">
+            <label for="exampleInputEmail1">Start</label>
+            <input type="datetime-local" id="start" name="start" class="form-control" required="">
+      </div>
+      <div class="form-group">
+          <label for="exampleInputEmail1">Eind</label>
+          <input type="datetime-local" id="end" name="end" class="form-control" required="">
+      </div> 
+        <button class="btn btn-success mt-3 mb-3 mr-2 float-right" type="submit">Aanmaken</button>
+        <a class="btn btn-danger mt-3 mb-3 mr-2 float-right" href="/home">Annuleren</a>
       </form>
     </div>
   </div>
 
-      <form action="#" method="POST">
-                       @csrf
 
-                    <div class="row">
-                        <div class="col-md-6 px-4 py-2">
-                        <h5><b>Voornaam</b><span class="badge badge-danger ml-2">Verplicht</span></h5>
-                           <input type="text" class="form-control" name="Voornaam" placeholder="Voornaam" required>
-                       </div>
+  <script>
+    $("#serverInput").change(function() {
+      var serverid = $(this).val()
 
-
-                        <div class="col-md-6 px-4 py-2">
-                        <h5><b>Achternaam</b><span class="badge badge-danger ml-2">Verplicht</span></h5>
-                           <input type="text" class="form-control" name="Voornaam" placeholder="Voornaam" required>
-                       </div>
-                    </div>
-
-
-
-
-
-                       <button class="btn btn-success mt-3 mb-3 mr-2 float-right" type="submit">Aanmaken</button>
-                       <a class="btn btn-danger mt-3 mb-3 mr-2 float-right" href="#">Annuleren</a>
-
-                   </form>
+      $("#cameraSelect option").each(function() {
+        $(this).hide();
+      });
+      $("#cameraSelect option").each(function() {
+        if($(this).attr('data-server') == serverid) {
+          $(this).show();
+        }
+      });
+    });
+  </script>
 
 
 
