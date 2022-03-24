@@ -13,52 +13,84 @@
    <div class="container">
     <div class="card">
     <div class="card-body">
-    <h1 class="text text-center text-center ">
-      GeeksforGeeks
-    </h1>
-    <h6 class="text text-success text-center">
-      A computer science portal for geeks
-    </h6>
-      <table class="table-striped border-success">
-        <thead>
-          <tr>
-            <th class="text-center" data-field="type">
-              <span class="text-success ">
-                 type
-              </span>
-            </th>
-            <th class="text-center" data-field="sport">
-              <span class="text-success">
-                SPORT 
-              </span>
-            </th>
-            <th class="text-center" data-field="schedule">
-              <span class="text-success">
-                SCHEDULE  
-              </span>
-            </th>
-            <th class="text-center" data-field="status">
-              <span class="text-success">
-                STATUS  
-              </span>
-            </th>
-          </tr>
-        </thead>
-      @foreach($schedule['data'] as $schedule)
-      <tr>
-                <th class="card-body">{{ $schedule['type']}}</th>
-                <th class="card-body">{{ $schedule['type_settings']['sport']}}</th>
-                <th class="card-body">{{ $schedule['schedule']['start_time']}}</th>
-                <th class="card-body">{{ $schedule['status']}}</th>
-                <th class="card-body"><a class="btn btn-primary" href="">Details</a></th>
+      <button class="btn btn-success type="button" data-toggle="modal" data-target="#exampleModal">
+<a> <i class="fas fa-plus mr-2" ></i>Nieuwe Recording</a>
+</button>
+
+    <table id="myTable">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Sport</th>
+          <th>Schedule</th>
+          <th>Status</th>
+          <th>Acties</th>
         </tr>
-    
-@endforeach
-      </table>
+      </thead>
+      <tbody>
+        @foreach($schedule['data'] as $schedule)
+        <tr>
+          <td>{{ $schedule['type']}}</td>
+          <td>{{ $schedule['type_settings']['sport']}}</td>
+          <td>{{ $schedule['schedule']['start_time']}}-{{ $schedule['schedule']['end_time']}}</td>
+          <td>{{ $schedule['status']}}</td>
+          <td><a class="btn btn-primary" href="">Details</a></td>
+        </tr>
+        @endforeach
+      </tbody>
+    </table>
+
         </div>
       </div>
   </div>
  
+
+
+
+ <!-- Button trigger modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Please select a customer</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+  <div class="form-group">
+    <label for="exampleFormControlSelect1">Customer</label>
+    <select class="form-control" id="exampleFormControlSelect1">
+      <option>1</option>
+      <option>2</option>
+    </select>
+  </div>
+</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+$('#myModal').on('shown.bs.modal', function () {
+  $('#myInput').trigger('focus')
+})
+</script>
+
+<script type="text/javascript">
+  $(document).ready( function () {
+    $('#myTable').DataTable();
+} );
+</script>
+
+
 
 
 @endsection

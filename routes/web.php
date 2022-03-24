@@ -26,6 +26,8 @@ Auth::routes();
 Route::get('/home', ['\App\Http\Controllers\HomeController', 'index'])->name('home');
 
 Route::get('/schedule', ['\App\Http\Controllers\ScheduleController', 'index'])->name('schedule');
+Route::get('/schedule/create/{customer}', ['\App\Http\Controllers\ScheduleController', 'create'])->name('schedule');
+
 
 Route::get('/cameras', ['\App\Http\Controllers\CamerasController', 'index'])->name('cameras');
 Route::get('/servers', ['\App\Http\Controllers\ServersController', 'index'])->name('servers');

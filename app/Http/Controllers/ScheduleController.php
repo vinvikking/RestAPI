@@ -15,8 +15,12 @@ class ScheduleController extends Controller
      */
     public function index(Request $request)
     {
-       $schedule = $this->jsonToObject();
-       return view('schedule.index')->with('schedule',json_decode($schedule, true));
+       $schedule = $this->listRecordings();
+       $customers = $this->listCustomers();
+
+       return view('schedule.index')
+        ->with('schedule', json_decode($schedule, true))
+        ->with('customers', json_decode($customers, true));
     }
 
     /**
@@ -98,8 +102,9 @@ class ScheduleController extends Controller
      * @param  \App\Models\Cameras  $cameras
      * @return \Illuminate\Http\Response
      */
-    public function jsonToObject()
-    {$curl = curl_init();
+    public function listRecordings()
+    {
+        $curl = curl_init();
 
           curl_setopt_array($curl, array(
           CURLOPT_URL => 'https://api.sports.studioautomated.com/api/v3/scheduler/recordings',
