@@ -13,12 +13,7 @@
     <div class="container">
     <div class="card">
     <div class="card-body">
-    <h1 class="text text-center text-center ">
-      GeeksforGeeks
-    </h1>
-    <h6 class="text text-success text-center">
-      A computer science portal for geeks
-    </h6>
+
       <table class="table-striped border-success">
         <thead>
           <tr>

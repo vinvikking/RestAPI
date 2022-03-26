@@ -98,7 +98,8 @@ class ScheduleController extends Controller
         $schedule = $this->listRecordings();
         $servers = $this->listServers();
     
-        return view('schedule.edit')->with('schedule', $schedule)
+        return view('schedule.edit')
+        ->with('schedule', $schedule)
         ->with('servers', $servers);
     }
 
@@ -122,7 +123,37 @@ class ScheduleController extends Controller
      */
     public function destroy(Schedule $schedule)
     {
-        //
+        $recordings = $this->listRecordings();
+        echo $recordings;
+        // $push = [
+        //     "server_id" => $request->server_id,
+        //     "status" => "pending",
+        //     "title" => $request->title,
+        //     "schedule" => [
+        //         "start_time" => $request->start . ":00",
+        //         "end_time" => $request->end . ":00",
+        //     ],
+        //     "type_settings" => [
+        //         "sport" => $request->sport,
+        //         "views" => [[
+        //             "camera_id" => $request->camera,
+        //             "camera_name" => "main",
+        //             "enable_audio" => true,
+        //             "enable_ocr" => true,
+        //             "mode" => "broadcast",
+        //             "quality" => "high",
+        //             "url" => $request->url
+        //         ]],
+        //     ],
+        // ];
+
+       // echo json_encode($push) . "\n\n";
+
+      // Curl::delete('https://api.sports.studioautomated.com/api/v3/scheduler/recordings', $push);
+     
+     
+      return redirect()->route('schedule.index')
+      ->with('success','Schedule deleted successfully');
     }
 
       /**

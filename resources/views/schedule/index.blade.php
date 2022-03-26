@@ -22,21 +22,25 @@
     <table id="myTable">
       <thead>
         <tr>
+          <th>Naam</th>
           <th>Type</th>
           <th>Sport</th>
           <th>Schedule</th>
           <th>Status</th>
           <th>Acties</th>
+          <th>Verwijderen</th>
         </tr>
       </thead>
       <tbody>
         @foreach($schedule['data'] as $schedule)
         <tr>
+          <td>{{ $schedule['title']}}</td>
           <td>{{ $schedule['type']}}</td>
           <td>{{ $schedule['type_settings']['sport']}}</td>
           <td>{{ $schedule['schedule']['start_time']}}-{{ $schedule['schedule']['end_time']}}</td>
           <td>{{ $schedule['status']}}</td>
-          <td><a class="btn btn-primary" href="schedule/edit/{{$schedule['id']}}">Details</a></td>
+          <td><a class="btn btn-primary" href="schedule/edit/{{$schedule['id']}}"><i class="fa fa-info"></i></a></td>
+          <td><a class="btn btn-danger" href="#"><i class="fa fa-trash"></i></a></td>
         </tr>
         @endforeach
       </tbody>
@@ -45,8 +49,7 @@
         </div>
       </div>
   </div>
- 
-
+  
 
 
  <!-- Button trigger modal -->

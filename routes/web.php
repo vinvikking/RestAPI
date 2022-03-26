@@ -29,6 +29,7 @@ Route::get('/schedule', ['\App\Http\Controllers\ScheduleController', 'index'])->
 Route::get('/schedule/create/{customer}', ['\App\Http\Controllers\ScheduleController', 'create'])->name('schedule');
 Route::post('/schedule/store', ['\App\Http\Controllers\ScheduleController', 'store'])->name('schedule');
 Route::get('/schedule/edit/{customer}', ['\App\Http\Controllers\ScheduleController', 'edit'])->name('schedule');
+Route::get('/schedule/destroy/{customer}', ['\App\Http\Controllers\ScheduleController', 'destroy'])->name('schedule');
 
 
 Route::get('/cameras', ['\App\Http\Controllers\CamerasController', 'index'])->name('cameras');
