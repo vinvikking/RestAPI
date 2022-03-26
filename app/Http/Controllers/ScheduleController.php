@@ -72,18 +72,7 @@ class ScheduleController extends Controller
 
         echo json_encode($push) . "\n\n";
 
-       $pushredirect = Curl::post('https://api.sports.studioautomated.com/api/v3/scheduler/recordings', $push);
-
-
-        try {
-            // Validate the value...
-            $pushredirect = Curl::post('https://api.sports.studioautomated.com/api/v3/scheduler/recordings', $push);
-
-        } catch (Throwable $e) {
-            report($e);
-    
-            return redirect('/schedule/create');
-        }
+       Curl::post('https://api.sports.studioautomated.com/api/v3/scheduler/recordings', $push);
     }
 
 
