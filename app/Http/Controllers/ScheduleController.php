@@ -6,6 +6,9 @@ namespace App\Http\Controllers;
 use App\Models\Schedule;
 use Illuminate\Http\Request;
 use App\Models\Curl;
+use GrahamCampbell\ResultType\Success;
+
+use function PHPUnit\Framework\throwException;
 
 class ScheduleController extends Controller
 {
@@ -69,43 +72,20 @@ class ScheduleController extends Controller
 
         echo json_encode($push) . "\n\n";
 
-        Curl::post('https://api.sports.studioautomated.com/api/v3/scheduler/recordings', $push);
-
-        //echo json_encode($result);
+       $pushredirect = Curl::post('https://api.sports.studioautomated.com/api/v3/scheduler/recordings', $push);
 
 
+        try {
+            // Validate the value...
+            $pushredirect = Curl::post('https://api.sports.studioautomated.com/api/v3/scheduler/recordings', $push);
 
-      //return json_encode($request->getContent());
+        } catch (Throwable $e) {
+            report($e);
+    
+            return redirect('/schedule/create');
+        }
     }
 
-
-
-    // {
-    //     "parent_id": "432b9f88-2685-47b2-ba14-71c68a2c26ad",
-    //     "schedule": {
-    //       "end": 42,
-    //       "end_time": "2021-11-12T10:15:34",
-    //       "start": 42,
-    //       "start_time": "2021-11-12T10:15:34"
-    //     },
-    //     "server_id": "432b9f88-2685-47b2-ba14-71c68a2c26ad",
-    //     "status": "pending",
-    //     "title": "abc",
-    //     "type_settings": {
-    //       "sport": "icehockey",
-    //       "views": [
-    //         {
-    //           "camera_id": "432b9f88-2685-47b2-ba14-71c68a2c26ad",
-    //           "camera_name": "abc",
-    //           "enable_audio": true,
-    //           "enable_ocr": true,
-    //           "mode": "static",
-    //           "quality": "high",
-    //           "url": "rtmp://url.to.stream"
-    //         }
-    //       ]
-    //     }
-    //   }
 
     /**
      * Display the specified resource.
@@ -126,7 +106,11 @@ class ScheduleController extends Controller
      */
     public function edit(Schedule $schedule)
     {
-        //
+        $schedule = $this->listRecordings();
+        $servers = $this->listServers();
+    
+        return view('schedule.edit')->with('schedule', $schedule)
+        ->with('servers', $servers);
     }
 
     /**
