@@ -36,7 +36,7 @@
           <td>{{ $schedule['type_settings']['sport']}}</td>
           <td>{{ $schedule['schedule']['start_time']}}-{{ $schedule['schedule']['end_time']}}</td>
           <td>{{ $schedule['status']}}</td>
-          <td><a class="btn btn-primary" href="">Details</a></td>
+          <td><a class="btn btn-primary" href="schedule/edit/{{$schedule['id']}}">Details</a></td>
         </tr>
         @endforeach
       </tbody>

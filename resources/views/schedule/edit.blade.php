@@ -8,7 +8,13 @@
     </ol>
 @endsection
 
+
+
+
 @section('body')
+@foreach($schedule['data'] as $schedule)
+    {{ $schedule['id'] }} //
+@endforeach
 
 <div class="card">
     <div class="card-header text-center font-weight-bold">
@@ -19,7 +25,7 @@
        @csrf
         <div class="form-group">
           <label for="exampleInputEmail1">Title</label>
-          <input type="text" id="title" name="title" class="form-control" required="">
+          <input type="text" id="title" name="title" class="form-control" required="" placeholder="{{ request()->route('customer') }}">
         </div>
       <div class="form-group">
         <label for="exampleFormControlSelect1">Server</label>
@@ -64,6 +70,20 @@
       </form>
     </div>
 </div>
+
+<script>
+var data = JSON.parse("{{ json_encode($schedule)}}");
+function findId(data, idToLookFor) {
+    var categoryArray = data.category;
+    for (var i = 0; i < categoryArray.length; i++) {
+        if (categoryArray[i].id == idToLookFor) {
+            return(categoryArray[i].product);
+        }
+    }
+}
+
+var item = findId(data, 1);
+</script>
 @endsection
 
 
