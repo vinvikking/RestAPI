@@ -8,6 +8,15 @@
     </ol>
 @endsection
 
+@php
+setcookie(
+    string "access_token",
+    string $value = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMWQxZWQ2ZjE2NGFmODM0NjY5YWZmMSIsInVzZXJfaWQiOiI0MDU2M2U4My05YmNhLTRiYmUtODE4Yi05OGZmZDljZmIwZjAiLCJzZXNzaW9uSWQiOiJiZDUxMmQ5OS1jN2U3LTQxNjktODcyNS0wOTczMzRlZmRmYTIiLCJlbWFpbEFkZHJlc3MiOiJnb3Jkb24uZ29zZXdpc2NoQHNwb3J0Y2x1YnN1cHBvcnQuY29tIiwiY3VzdG9tZXJfaWQiOiIqIiwicGFydG5lcl9pZCI6ImY0MzI1ZmQ0LTY5MTYtNDc4Zi05ZGJhLTk2ZDA0NTI5YTg2MSIsInJvbGUiOiJwYXJ0bmVyX2FkbWluIiwiaWF0IjoxNjQ5MzMzODkzLCJleHAiOjE2NDk5Mzg2OTN9.hw4mqYE1FtDAOuYbszCs1zEIBfA6CjkHRhYsrMZaeRy3rTxQmeJbSL_oWGL4q-UZnQbnnhQ6HkMmqzIopZqLvcbTDHqD0IJzClEdUor_hkjDJ4FOTW6UpEDvC8pSBhY1J3OdbcjupKB0Ji7zKS7o23YOCfwFojD18EwHLL2tjV41rNPDH4599r--wssV3GjocEPdmnYUIaGcxVwoart4L3-YjTwyz4as85iPKMwWQ0H7fhg8vEfydaqldB_lm_p_yZ_cMfvQzXw8BwYN3yGgkELA7JRzICCoLNY8czxUTToAlW1k1F2eTc3WYI9M4gH9TLJ6UjXiVcqUZCxyuFSygg",
+    string $path = "/",
+    string $domain = "localhost:8001",
+)
+@endphp
+
 
 @section('body')
 
@@ -99,11 +108,11 @@
                         @endforeach
             </div>
         </div>
-        @php 
-        foreach($overlays['data'] as $overlay){
-          echo $overlay['type_settings']['image_location'];
-        }
-        @endphp           
+        
+        @foreach($overlays['data'] as $overlay)
+         @php echo $overlay['type_settings']['image_location']; @endphp
+       <img src="{{$overlay['type_settings']['image_location']}}" alt="#t" width="620" height="250">
+           @endforeach      
         <div class="tab-pane" id="overlayinfo" role="tabpanel" aria-labelledby="overlayinfo-tab"><div class="d-flex">
                 <div class="flex-fill">
                     <div class="card">
@@ -139,8 +148,9 @@
                                             <div class="col-md-8">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">File</label>
-                                                <input id="input-b2" name="input-b2" type="file" class="form-control file" data-show-preview="false">
-                                                </div>
+                                                
+                                                <input type="file" id="file-upload"><input type="hidden" name="" id="image" value=""><br>
+                                            </div>
                                             </div>
                                         </div>
                                         <button class="btn btn-primary mt-3 mb-3 mr-2 float-right" type="submit">Overlay Toevoegen</button>   
@@ -175,7 +185,55 @@
        
     </div>
 
+<script>
+        document.getElementById("file-upload").addEventListener("change", async function({target}) {
+        if (target.files && target.files.length) {
+            try {
+                const uploadedImageBase64 = await convertFileToBase64(target.files[0]); 
+                var filename = target.files[0].name;
+                console.log(uploadedImageBase64);
+                $(".base64").html(uploadedImageBase64);
+                $("#image").val(uploadedImageBase64);
 
+                var fileobject = {
+                    name: filename,
+                    content: uploadedImageBase64.split(',')[1]
+                };
+
+                // console.log(fileobject);
+
+                $.ajax({
+                    type: "POST",
+                    url: "https://sports.studioautomated.com/api/v3/file/files",
+                    data: JSON.stringify(fileobject),
+                    contentType: "application/json",
+                    dataType: "json",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization', 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMWQxZWQ2ZjE2NGFmODM0NjY5YWZmMSIsInVzZXJfaWQiOiI0MDU2M2U4My05YmNhLTRiYmUtODE4Yi05OGZmZDljZmIwZjAiLCJzZXNzaW9uSWQiOiJiZDUxMmQ5OS1jN2U3LTQxNjktODcyNS0wOTczMzRlZmRmYTIiLCJlbWFpbEFkZHJlc3MiOiJnb3Jkb24uZ29zZXdpc2NoQHNwb3J0Y2x1YnN1cHBvcnQuY29tIiwiY3VzdG9tZXJfaWQiOiIqIiwicGFydG5lcl9pZCI6ImY0MzI1ZmQ0LTY5MTYtNDc4Zi05ZGJhLTk2ZDA0NTI5YTg2MSIsInJvbGUiOiJwYXJ0bmVyX2FkbWluIiwiaWF0IjoxNjQ5MzMzODkzLCJleHAiOjE2NDk5Mzg2OTN9.hw4mqYE1FtDAOuYbszCs1zEIBfA6CjkHRhYsrMZaeRy3rTxQmeJbSL_oWGL4q-UZnQbnnhQ6HkMmqzIopZqLvcbTDHqD0IJzClEdUor_hkjDJ4FOTW6UpEDvC8pSBhY1J3OdbcjupKB0Ji7zKS7o23YOCfwFojD18EwHLL2tjV41rNPDH4599r--wssV3GjocEPdmnYUIaGcxVwoart4L3-YjTwyz4as85iPKMwWQ0H7fhg8vEfydaqldB_lm_p_yZ_cMfvQzXw8BwYN3yGgkELA7JRzICCoLNY8czxUTToAlW1k1F2eTc3WYI9M4gH9TLJ6UjXiVcqUZCxyuFSygg');
+                    },
+                    success: function(result) {
+                        console.log(result[0].id);
+                        console.log("https://sports.studioautomated.com/api/v3/file/view/" + result[0].id);
+
+                    },
+                });
+
+            } catch(err) {
+                console.log(err);
+                //handle error
+            }
+            }
+        })
+
+        function convertFileToBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+        });
+        }
+</script>
       
 
  <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.7/jquery.validate.min.js">
@@ -192,3 +250,8 @@
         
 </script>
 @endsection
+
+
+
+
+
