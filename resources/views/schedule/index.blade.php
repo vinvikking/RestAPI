@@ -69,9 +69,7 @@
   <div class="form-group">
     <label for="exampleFormControlSelect1">Customer</label>
     <select class="form-control" id="selectCustomerInput">
-      @foreach($customers['data'] as $customer)
-      <option value="{{$customer['id']}}">{{$customer['name']}}</option>
-      @endforeach
+
     </select>
   </div>
 </form>

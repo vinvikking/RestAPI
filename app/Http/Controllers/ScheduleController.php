@@ -21,9 +21,10 @@ class ScheduleController extends Controller
     {
        $schedule = $this->listRecordings();
        $customers = $this->listCustomers();
-      
+       $overlays = $this->listOverlays();
 
        return view('schedule.index')
+        ->with('overlays', $overlays)
         ->with('schedule', $schedule)
         ->with('customers', $customers);
     }
@@ -97,8 +98,9 @@ class ScheduleController extends Controller
     {
         $schedule = $this->listRecordings();
         $servers = $this->listServers();
-    
+        $overlays = $this->listOverlays();
         return view('schedule.edit')
+        ->with('overlays', $overlays)
         ->with('schedule', $schedule)
         ->with('servers', $servers);
     }
@@ -164,7 +166,7 @@ class ScheduleController extends Controller
      */
     public function listRecordings()
     {
-        $recordings = Curl::get('https://api.sports.studioautomated.com/api/v3/scheduler/recordings');
+        $recordings = Curl::get('https://api.sports.studioautomated.com/api/v3/scheduler/recordings?limit=1000');
         return $recordings;
     }
       /**
@@ -188,6 +190,20 @@ class ScheduleController extends Controller
     public function listCustomers()
     {
         $recordings = Curl::get('https://api.sports.studioautomated.com/api/v3/core/customers');
+        return $recordings;
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Cameras  $cameras
+     * @return \Illuminate\Http\Response
+     */
+    public function listOverlays()
+    {
+       // $recordings = Curl::get('https://api.sports.studioautomated.com/api/v3/scheduler/overlays/' . request()->route('id'));
+        $recordings = Curl::get('https://api.sports.studioautomated.com/api/v3/scheduler/overlays?parent_id=' . request()->route('customer'));
+       
         return $recordings;
     }
 }

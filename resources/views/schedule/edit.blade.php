@@ -14,28 +14,35 @@
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
          <li class="nav-item">
-            <a class="nav-link active" id="campaigndata-tab" data-toggle="tab" href="#campaigninfo" role="tab" aria-controls="campaigninfo" aria-selected="true"><i class="far fa-address-card"></i>&nbsp;Recording</a>
+            <a class="nav-link active" id="scheduledata-tab" data-toggle="tab" href="#scheduleinfo" role="tab" aria-controls="scheduleinfo" aria-selected="true"><i class="far fa-address-card"></i>&nbsp;Recording</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="campaigndata-tab" data-toggle="tab" href="#campaigninfo" role="tab" aria-controls="campaigninfo" aria-selected="true"><i class="far fa-address-card"></i>&nbsp;Overlays</a>
+            <a class="nav-link" id="overlaydata-tab" data-toggle="tab" href="#overlayinfo" role="tab" aria-controls="overlayinfo" aria-selected="true"><i class="far fa-address-card"></i>&nbsp;Overlays</a>
         </li>
 </ul>
 <p>{{ request()->route('customer') }}</p>
 
 <div class="tab-content">
         <!--------------------------------------------------------------basisgegevens tab------------------------------------------------------------------------->
-        <div class="tab-pane active" id="campaigndetails" role="tabpanel" aria-labelledby="campaigndetails-tab">
+        <div class="tab-pane active" id="scheduleinfo" role="tabpanel" aria-labelledby="scheduledetails-tab">
              <div class="flex-fill">
                         @foreach($schedule['data'] as $schedule)
                         @if($schedule['id'] == request()->route('customer')) 
                       @php  
                       
-                      $t = $schedule['type_settings']['views'][0]['url'];
+                      $t = $schedule['type_settings']['views'][0]['camera_name'];
                       
                       print_r($t); 
+
+                      foreach($servers['data'] as $server) {
+                          if($schedule['server_id'] == $server['id']) {
+                              $servername = $server['host_name'];
+                              $serverid = $server['id'];
+                          }
+                      }
                       
                       @endphp
-
+                     
 
                         <div class="card">
                             
@@ -51,9 +58,10 @@
                                 </div>
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Server</label>
-                                <select name="server_id" class="form-control" id="serverInput">
-                                <option value="">l</option>
-                                </select>
+                                <select  readonly name="server_id" class="form-control" id="serverInput">
+                                <option value="{{ $serverid }}">{{ $servername }}</option>
+                                </select> 
+                              
                             </div>
                             <div class="form-group">
                                 <label value="{{$schedule['type_settings']['sport']}}" for="exampleFormControlSelect1">Sport </label>
@@ -65,13 +73,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Camera</label>
-                                <select name="camera" id="cameraSelect" class="form-control">  
-                                @foreach($servers['data'] as $server)
-                                @foreach($server['cameras'] as $camera_name => $camera_data)
-                                    <option data-server="{{ $server['id'] }}" value="{{ $camera_data['camera_id'] }}">{{ $camera_name }}</option>
-                                    
-                                   <option>{{ $server['host_name'] }}tedst</option> @endforeach
-                                    @endforeach
+                                <select readonly name="camera" id="cameraSelect" class="form-control"> 
+                                <option value="#">{{$schedule['type_settings']['views'][0]['camera_name']}}</option> 
                                 </select>
                             </div>
                             <div class="form-group">
@@ -96,9 +99,12 @@
                         @endforeach
             </div>
         </div>
-
-
-        <div class="tab-pane" id="campaigninfo" role="tabpanel" aria-labelledby="campaigninfo-tab"><div class="d-flex">
+        @php 
+        foreach($overlays['data'] as $overlay){
+          echo $overlay['type_settings']['image_location'];
+        }
+        @endphp           
+        <div class="tab-pane" id="overlayinfo" role="tabpanel" aria-labelledby="overlayinfo-tab"><div class="d-flex">
                 <div class="flex-fill">
                     <div class="card">
                          <div class="card-body">
@@ -106,7 +112,7 @@
                                 <div class="col">
                                  <div class="card text-center">
                                      <div class="card-header">
-                                        <form name="add-blog-post-form" id="add-blog-post-form" method="post"  action="/schedule/store">
+                                        <form name="add-blog-post-form" id="add-blog-post-form" method="post"  action="/overlays/create/{{request()->route('customer')}}">
                                         @csrf
                                         <div class="row">
                                             <div class="col-md-6">
@@ -147,12 +153,13 @@
                                             <div class="card-header">
                                                 Order
                                             </div>
+                                           
                                             </div>
                                             <div class="col-md-7">
                                                     <div class="card-header">
                                                     Preview
                                                     </div>
-                                                <img src="https://www.martijnkardol.nl/wp-content/uploads/2021/07/placeholder-5.png" alt="Girl in a jacket" width="620" height="250">
+                                                <img src="#" alt="Girl in a jacket" width="620" height="250">
                                             </div>
                                         </div>
                                     </div>
@@ -165,6 +172,7 @@
             </div>
             
         </div>
+       
     </div>
 
 

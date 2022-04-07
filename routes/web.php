@@ -31,6 +31,7 @@ Route::post('/schedule/store', ['\App\Http\Controllers\ScheduleController', 'sto
 Route::get('/schedule/edit/{customer}', ['\App\Http\Controllers\ScheduleController', 'edit'])->name('schedule');
 Route::get('/schedule/destroy/{customer}', ['\App\Http\Controllers\ScheduleController', 'destroy'])->name('schedule');
 
+Route::post('/overlays/create/{schedule}', ['\App\Http\Controllers\OverlaysController', 'create'])->name('overlays');
 
 Route::get('/cameras', ['\App\Http\Controllers\CamerasController', 'index'])->name('cameras');
 Route::get('/servers', ['\App\Http\Controllers\ServersController', 'index'])->name('servers');

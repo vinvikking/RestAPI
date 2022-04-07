@@ -55,7 +55,7 @@
       <div class="form-group">
           <label for="exampleInputEmail1">Streaming url</label>
           <input type="text" id="title" name="url" class="form-control" required="">
-        </div>
+      </div>
       <div class="form-group">
             <label for="exampleInputEmail1">Start</label>
             <input type="datetime-local" id="start" name="start" class="form-control" required="">

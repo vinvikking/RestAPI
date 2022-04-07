@@ -9,12 +9,12 @@ class Curl {
 
 	static function header() {
 		return array(
-			'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMWQxZWQ2ZjE2NGFmODM0NjY5YWZmMSIsImVtYWlsQWRkcmVzcyI6ImdvcmRvbi5nb3Nld2lzY2hAc3BvcnRjbHVic3VwcG9ydC5jb20iLCJjdXN0b21lcl9pZCI6IioiLCJwYXJ0bmVyX2lkIjoiZjQzMjVmZDQtNjkxNi00NzhmLTlkYmEtOTZkMDQ1MjlhODYxIiwicm9sZSI6InBhcnRuZXJfYWRtaW4iLCJpYXQiOjE2NDc5ODAyMDcsImV4cCI6MTY0ODU4NTAwN30.ixDMXdVWcFw7NuP4BhzYxnbo5U9tEiB24EyCixIVaxKPBScQ6gnNrR04USkpWghKix2EEPzKXhFiix3HX3a5VOllBJ5jx4WvWWfHZvNw2Of32gFAMWIMk24D0KpRN7ngFbqxdFqv2V0mMRw2OjIKmky3e9i5ZHECxd4fdgVkQZOiUAr2pSky6JFly2RsjW9AfEZOMMaMLJheGPKwtvfor01zfn7PyuYuq5EzaxQ4cz55jFJSCG9nUQ9G1X3UPRzdagK7VlPZAEJt1jk0RH0EpEWT_DhdAlxdZnqI1ovEUfXJb562l_oaWKKW9-oti_r1mLiPBi319CU_o4dKVkS7gg',
+			'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMWQxZWQ2ZjE2NGFmODM0NjY5YWZmMSIsInVzZXJfaWQiOiI0MDU2M2U4My05YmNhLTRiYmUtODE4Yi05OGZmZDljZmIwZjAiLCJzZXNzaW9uSWQiOiJiZDUxMmQ5OS1jN2U3LTQxNjktODcyNS0wOTczMzRlZmRmYTIiLCJlbWFpbEFkZHJlc3MiOiJnb3Jkb24uZ29zZXdpc2NoQHNwb3J0Y2x1YnN1cHBvcnQuY29tIiwiY3VzdG9tZXJfaWQiOiIqIiwicGFydG5lcl9pZCI6ImY0MzI1ZmQ0LTY5MTYtNDc4Zi05ZGJhLTk2ZDA0NTI5YTg2MSIsInJvbGUiOiJwYXJ0bmVyX2FkbWluIiwiaWF0IjoxNjQ5MzMzODkzLCJleHAiOjE2NDk5Mzg2OTN9.hw4mqYE1FtDAOuYbszCs1zEIBfA6CjkHRhYsrMZaeRy3rTxQmeJbSL_oWGL4q-UZnQbnnhQ6HkMmqzIopZqLvcbTDHqD0IJzClEdUor_hkjDJ4FOTW6UpEDvC8pSBhY1J3OdbcjupKB0Ji7zKS7o23YOCfwFojD18EwHLL2tjV41rNPDH4599r--wssV3GjocEPdmnYUIaGcxVwoart4L3-YjTwyz4as85iPKMwWQ0H7fhg8vEfydaqldB_lm_p_yZ_cMfvQzXw8BwYN3yGgkELA7JRzICCoLNY8czxUTToAlW1k1F2eTc3WYI9M4gH9TLJ6UjXiVcqUZCxyuFSygg',
 			'Content-Type: application/json'
 		);
 	}
 
-	static function get($url) {
+	static function get($url, $data = []) {
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
 		  CURLOPT_URL => $url,
@@ -25,6 +25,7 @@ class Curl {
 		  CURLOPT_FOLLOWLOCATION => true,
 		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 		  CURLOPT_CUSTOMREQUEST => 'GET',
+		  CURLOPT_POSTFIELDS => json_encode($data),
 		  CURLOPT_HTTPHEADER => Curl::header(),
 		));
 
