@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\Schedule;
 use Illuminate\Http\Request;
 use App\Models\Curl;
-use GrahamCampbell\ResultType\Success;
+
 
 use function PHPUnit\Framework\throwException;
 
@@ -19,6 +19,7 @@ class ScheduleController extends Controller
      */
     public function index(Request $request)
     {
+
        $schedule = $this->listRecordings();
        $customers = $this->listCustomers();
        $overlays = $this->listOverlays();
@@ -96,6 +97,7 @@ class ScheduleController extends Controller
      */
     public function edit(Schedule $schedule)
     {
+        
         $schedule = $this->listRecordings();
         $servers = $this->listServers();
         $overlays = $this->listOverlays();

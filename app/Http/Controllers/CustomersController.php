@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use App\Models\Curl;
 
 class CustomersController extends Controller
 {
@@ -14,7 +15,8 @@ class CustomersController extends Controller
      */
     public function index()
     {
-        //
+        $customers = $this->listCustomers();
+        return view('customer.index')->with('customers', $customers);
     }
 
     /**
@@ -81,5 +83,18 @@ class CustomersController extends Controller
     public function destroy(Customer $customer)
     {
         //
+    }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Cameras  $cameras
+     * @return \Illuminate\Http\Response
+     */
+    public function listCustomers()
+    {
+        $recordings = Curl::get('https://api.sports.studioautomated.com/api/v3/core/customers');
+        return $recordings;
     }
 }

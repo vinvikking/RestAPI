@@ -62,13 +62,13 @@ return [
          ],
          [
             'text' => 'Customers',
-            'url'  => '/Customers',
+            'url'  => '/customers',
            // 'icon' => 'users fas',
             'submenu' => [
                 [
                     'text' => 'Customers',
                     'icon' => 'users fas',
-                    'url'  => '#',    
+                    'url'  => '/customer',    
                 ],
             ]
          ]

@@ -28,12 +28,13 @@ Route::get('/home', ['\App\Http\Controllers\HomeController', 'index'])->name('ho
 Route::get('/schedule', ['\App\Http\Controllers\ScheduleController', 'index'])->name('schedule');
 Route::get('/schedule/create/{customer}', ['\App\Http\Controllers\ScheduleController', 'create'])->name('schedule');
 Route::post('/schedule/store', ['\App\Http\Controllers\ScheduleController', 'store'])->name('schedule');
-Route::get('/schedule/edit/{customer}', ['\App\Http\Controllers\ScheduleController', 'edit'])->name('schedule');
+Route::get('/schedule/edit/{customer}', ['\App\Http\Controllers\ScheduleController', 'edit'])->name('schedule')->middleware('auth');
 Route::get('/schedule/destroy/{customer}', ['\App\Http\Controllers\ScheduleController', 'destroy'])->name('schedule');
 
 Route::post('/overlays/create/{schedule}', ['\App\Http\Controllers\OverlaysController', 'create'])->name('overlays');
 
 Route::get('/cameras', ['\App\Http\Controllers\CamerasController', 'index'])->name('cameras');
+Route::get('/customer', ['\App\Http\Controllers\CustomersController', 'index'])->name('customer');
 Route::get('/servers', ['\App\Http\Controllers\ServersController', 'index'])->name('servers');
 //Route::post('/cameras', '\App\Http\Controllers\CamerasController@jsonToObject');
 //Route::resource('schedule', ScheduleController::class);

@@ -24,6 +24,7 @@ class OverlaysController extends Controller
      */
     public function create(Request $request)
     {
+        return redirect('schedule.edit');
         echo $request;
         echo "test";
      

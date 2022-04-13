@@ -3,7 +3,7 @@
 @section('breadcrumb')
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Servers</li>
+        <li class="breadcrumb-item active" aria-current="page">Customers</li>
     </ol>
 @endsection
 
@@ -17,22 +17,16 @@
     <table id="myTable">
       <thead>
         <tr>
-          <th>Server</th>
+          <th>Name</th>
           <th>Partner</th>
-          <th>Customer</th>
-          <th>Licensed Until</th>
-          <th>Health</th>
           <th>Acties</th>
         </tr>
       </thead>
       <tbody>
-        @foreach($servers['data'] as $server)
+        @foreach($customers['data'] as $customer)
         <tr>
-          <td>{{ $server['host_name']}}</td>
-          <td>{{ $server['partner_id']}}</td>
-          <td>{{ $server['customer_id']}}</td>
-          <td>{{ $server['license']['expire']}}</td>
-          <td>{{ $server['status']}}</td>
+          <td>{{ $customer['name']}}</td>
+          <td>{{ $customer['partner_id']}}</td>
           <td><a class="btn btn-primary" href="#"><i class="fa fa-info"></i></a></td>
         </tr>
         @endforeach

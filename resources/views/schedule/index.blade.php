@@ -10,12 +10,11 @@
 
 @section('body')
 	
-   <div class="container">
+ 
     <div class="card">
     <div class="card-body">
       <button class="btn btn-success type="button" data-toggle="modal" data-target="#exampleModal">
-<a> <i class="fas fa-plus mr-2" ></i>Nieuwe Recording</a>
-</button>
+<a> <i class="fas fa-plus mr-2" ></i>Nieuwe Recording</a></button>
 
 
 
@@ -80,7 +79,7 @@
       </div>
     </div>
   </div>
-</div>
+
 
 <script type="text/javascript">
 $('#myModal').on('shown.bs.modal', function () {

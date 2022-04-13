@@ -10,70 +10,39 @@
 
 @section('body')
 	
-  <div class="container">
     <div class="card">
     <div class="card-body">
-    <h1 class="text text-center text-center ">
-      GeeksforGeeks
-    </h1>
-    <h6 class="text text-success text-center">
-      A computer science portal for geeks
-    </h6>
-      <table class="table-striped border-success">
-        <thead>
-          <tr>
-            <th class="text-center" data-field="id">
-              <span class="text-success ">
-                 ID
-              </span>
-            </th>
-            <th class="text-center" data-field="camera_type">
-              <span class="text-success">
-                Camera_types 
-              </span>
-            </th>
-            <th class="text-center" data-field="serial_number">
-              <span class="text-success">
-                Serial_number  
-              </span>
-            </th>
-            <th class="text-center" data-field="created">
-              <span class="text-success">
-                Created  
-              </span>
-            </th>
-            <th class="text-center" data-field="updated">
-              <span class="text-success">
-                Updated  
-              </span>
-            </th>
-            <th class="text-center" data-field="status">
-              <span class="text-success">
-                Status  
-              </span>
-            </th>
-            <th class="text-center" data-field="details">
-              <span class="text-success">
-                Details  
-              </span>
-            </th>
-          </tr>
-        </thead>
-      @foreach($cameras['data'] as $cameras)
-      <tr>
-                <th class="card-body">{{ $cameras['id']}}</th>
-                <th class="card-body">{{ $cameras['camera_type']}}</th>
-                <th class="card-body">{{ $cameras['serial_number']}}</th>
-                <th class="card-body">{{ $cameras['created']}}</th>
-                <th class="card-body">{{ $cameras['updated']}}</th>
-                <th class="card-body">{{$cameras['status']}}</th>
-                <th class="card-body"><a class="btn btn-primary" href="">Details</a></th>
-        </tr>
     
-@endforeach
-      </table>
-        </div>
+    <table id="myTable">
+      <thead>
+        <tr>
+          <th>Device</th>
+          <th>Name</th>
+          <th>Health</th>
+          <th>Acties</th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach($cameras['data'] as $camera)
+        <tr>
+          <td>{{$camera['camera_type']}} - {{$camera['serial_number']}}</td>
+          <td>{{$camera['name']}}</td>
+          <td>{{$camera['status']}}</td>
+          <td><a class="btn btn-primary" href="#"><i class="fa fa-info"></i></a></td>
+        </tr>
+        @endforeach
+      </tbody>
+    </table>
+
+        
       </div>
   </div>
   
+
+<script type="text/javascript">
+  $(document).ready( function () {
+    $('#myTable').DataTable();
+} );
+</script>
+
 @endsection
