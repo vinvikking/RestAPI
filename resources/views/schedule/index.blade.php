@@ -10,11 +10,12 @@
 
 @section('body')
 	
- 
+   <div class="container">
     <div class="card">
     <div class="card-body">
       <button class="btn btn-success type="button" data-toggle="modal" data-target="#exampleModal">
-<a> <i class="fas fa-plus mr-2" ></i>Nieuwe Recording</a></button>
+<a> <i class="fas fa-plus mr-2" ></i>Nieuwe Recording</a>
+</button>
 
 
 
@@ -68,7 +69,9 @@
   <div class="form-group">
     <label for="exampleFormControlSelect1">Customer</label>
     <select class="form-control" id="selectCustomerInput">
-
+    @foreach($customers['data'] as $customer)
+      <option value="{{$customer['partner_id']}}">{{$customer['name']}}</option>
+      @endforeach
     </select>
   </div>
 </form>
@@ -79,7 +82,7 @@
       </div>
     </div>
   </div>
-
+</div>
 
 <script type="text/javascript">
 $('#myModal').on('shown.bs.modal', function () {

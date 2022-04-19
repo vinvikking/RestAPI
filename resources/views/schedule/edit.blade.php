@@ -1,10 +1,14 @@
 @extends('coreui::master')
 
+@php 
+use App\Http\Controllers\ScheduleController;
+@endphp
+
 @section('breadcrumb')
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
         <li class="breadcrumb-item" aria-current="page">Schedule</li>
-        <li class="breadcrumb-item active" aria-current="page">Profiel aanpassen</li>
+        <li class="breadcrumb-item active" aria-current="page">Recording aanpassen</li>
     </ol>
 @endsection
 
@@ -102,10 +106,7 @@
             </div>
         </div>
         
-        @foreach($overlays['data'] as $overlay)
-         @php echo $overlay['type_settings']['image_location']; @endphp
-       <img src="{{$overlay['type_settings']['image_location']}}" alt="#t" width="620" height="250">
-           @endforeach      
+    
         <div class="tab-pane" id="overlayinfo" role="tabpanel" aria-labelledby="overlayinfo-tab"><div class="d-flex">
                 <div class="flex-fill">
                     <div class="card">
@@ -149,23 +150,25 @@
                                         <button class="btn btn-primary mt-3 mb-3 mr-2 float-right" type="submit">Overlay Toevoegen</button>   
                                         </form>
                                     </div>
+                                    
+                                  
+                                    @foreach($overlays['data'] as $overlay)
+                                        @php 
 
+                                            $img_url = ScheduleController::retrieveImg($overlay['type_settings']['image_location']);
+                                        
+                                        @endphp
                                         <div class="row">
                                             <div class="card-body">
-                                            <div class="col-md-5">
-                                            <div class="card-header">
-                                                Order
-                                            </div>
-                                           
-                                            </div>
-                                            <div class="col-md-7">
-                                                    <div class="card-header">
-                                                    Preview
-                                                    </div>
-                                                <img src="#" alt="Girl in a jacket" width="620" height="250">
+                                                <div class="col-md-5">
+                                                    <div class="card-header">Order {{$overlay['title']}}</div>                                           
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <img src="{{$img_url}}" alt="" width="500" height="250">
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
                             </div>
@@ -202,7 +205,7 @@
                     contentType: "application/json",
                     dataType: "json",
                     beforeSend: function (xhr) {
-                        xhr.setRequestHeader('Authorization', 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMWQxZWQ2ZjE2NGFmODM0NjY5YWZmMSIsInVzZXJfaWQiOiI0MDU2M2U4My05YmNhLTRiYmUtODE4Yi05OGZmZDljZmIwZjAiLCJzZXNzaW9uSWQiOiJiZDUxMmQ5OS1jN2U3LTQxNjktODcyNS0wOTczMzRlZmRmYTIiLCJlbWFpbEFkZHJlc3MiOiJnb3Jkb24uZ29zZXdpc2NoQHNwb3J0Y2x1YnN1cHBvcnQuY29tIiwiY3VzdG9tZXJfaWQiOiIqIiwicGFydG5lcl9pZCI6ImY0MzI1ZmQ0LTY5MTYtNDc4Zi05ZGJhLTk2ZDA0NTI5YTg2MSIsInJvbGUiOiJwYXJ0bmVyX2FkbWluIiwiaWF0IjoxNjQ5MzMzODkzLCJleHAiOjE2NDk5Mzg2OTN9.hw4mqYE1FtDAOuYbszCs1zEIBfA6CjkHRhYsrMZaeRy3rTxQmeJbSL_oWGL4q-UZnQbnnhQ6HkMmqzIopZqLvcbTDHqD0IJzClEdUor_hkjDJ4FOTW6UpEDvC8pSBhY1J3OdbcjupKB0Ji7zKS7o23YOCfwFojD18EwHLL2tjV41rNPDH4599r--wssV3GjocEPdmnYUIaGcxVwoart4L3-YjTwyz4as85iPKMwWQ0H7fhg8vEfydaqldB_lm_p_yZ_cMfvQzXw8BwYN3yGgkELA7JRzICCoLNY8czxUTToAlW1k1F2eTc3WYI9M4gH9TLJ6UjXiVcqUZCxyuFSygg');
+                        xhr.setRequestHeader('Authorization', '<?php echo $_COOKIE["access_token"]; ?>');
                     },
                     success: function(result) {
                         console.log(result[0].id);

@@ -208,4 +208,18 @@ class ScheduleController extends Controller
        
         return $recordings;
     }
+
+    static public function  retrieveImg($url) {
+        
+        $imgdata = Curl::getRaw($url); 
+        $urlpartarr = explode("/", $url);
+        $filename =  $urlpartarr[count($urlpartarr) - 1];
+        
+        // TODO: If image doesnt exist in uploads folder:
+            file_put_contents('uploads/' . $filename, $imgdata);
+        
+        
+        return '/uploads/' . $filename;
+
+    }
 }
