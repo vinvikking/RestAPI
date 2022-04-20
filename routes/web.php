@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ScheduleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,6 +31,9 @@ Route::get('/schedule/create/{customer}', ['\App\Http\Controllers\ScheduleContro
 Route::post('/schedule/store', ['\App\Http\Controllers\ScheduleController', 'store'])->name('schedule');
 Route::get('/schedule/edit/{customer}', ['\App\Http\Controllers\ScheduleController', 'edit'])->name('schedule')->middleware('auth');
 Route::get('/schedule/destroy/{customer}', ['\App\Http\Controllers\ScheduleController', 'destroy'])->name('schedule');
+Route::get('/schedule/destroy/{customer}',[ScheduleController::class,'destroy'])->name('schedule.destroy');
+
+
 
 Route::post('/overlays/create/{schedule}', ['\App\Http\Controllers\OverlaysController', 'create'])->name('overlays');
 

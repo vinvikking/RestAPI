@@ -96,9 +96,7 @@ use App\Http\Controllers\ScheduleController;
                                 <input value="{{$schedule['schedule']['end_time']}}" type="datetime-local" id="end" name="end" class="form-control" required="" placeholder="{{$schedule['schedule']['end_time']}}">
                             </div> 
                                 <button class="btn btn-success mt-3 mb-3 mr-2 float-right" type="submit">Opslaan</button>
-                                <a class="btn btn-danger mt-3 mb-3 mr-2 float-right" href="#">Verwijderen <i class="fa fa-trash"></i></a>
-                               
-                            </form>
+                                <button class="btn"><a class="btn btn-danger" href="{{ route('schedule.destroy', request()->route('customer'))}}">Verwijderen</a></button>
                             </div>
                         </div>
                         @endif

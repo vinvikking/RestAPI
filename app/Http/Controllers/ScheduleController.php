@@ -75,6 +75,8 @@ class ScheduleController extends Controller
         echo json_encode($push) . "\n\n";
 
        Curl::post('https://api.sports.studioautomated.com/api/v3/scheduler/recordings', $push);
+
+       redirect('/schedule');
     }
 
 
@@ -125,10 +127,13 @@ class ScheduleController extends Controller
      * @param  \App\Models\Schedule  $schedule
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Schedule $schedule)
+    public function destroy(Request $request, Schedule $schedule)
     {
+        dd(request()->route('customer'));
         $recordings = $this->listRecordings();
+        echo "/////";
         echo $recordings;
+       // echo $request;
         // $push = [
         //     "server_id" => $request->server_id,
         //     "status" => "pending",
@@ -151,13 +156,10 @@ class ScheduleController extends Controller
         //     ],
         // ];
 
-       // echo json_encode($push) . "\n\n";
+         //echo json_encode($push) . "\n\n";
 
       // Curl::delete('https://api.sports.studioautomated.com/api/v3/scheduler/recordings', $push);
-     
-     
-      return redirect()->route('schedule.index')
-      ->with('success','Schedule deleted successfully');
+       return view("schedule.index")->with('success','Schedule deleted successfully');
     }
 
       /**
